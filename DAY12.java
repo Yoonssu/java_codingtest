@@ -24,8 +24,8 @@ public class DAY12 {
         }
 
         //전체 사람들 수 받아오기
-        int total = name.size() + 1;
-        int teamCount = total/requiredPeople;
+        int total = name.size();
+        int teamCount = total/requiredPeople-1;
 
         System.out.println(teamCount);
 
