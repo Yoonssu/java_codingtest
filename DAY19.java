@@ -1,53 +1,44 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class DAY19 {
     public static void main(String[] args){
 
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt(); //배열 원소 수
-        int m = sc.nextInt(); // 질문 수
+        //학생수
+        int n = sc.nextInt();
         sc.nextLine();
 
-        int[] arr = new int[n];
+        //학생 이름
+        String[] names = sc.nextLine().split(" ");
 
+        //인기도 초기화
+        HashMap<String, Integer> popularity = new HashMap<>();
+        for(String name : names){
+            popularity.put(name,0);
+        }
+
+        //각 학생이 좋아하는 학생 입력 받고, 인기도 +1
         for(int i=0; i<n; i++){
-            arr[i] = sc.nextInt();
-        }
-
-        Arrays.sort(arr);
-
-
-        //질문 수
-        for(int i=0; i<m; i++){
-            int query = sc.nextInt();
-
-            int indx = lowBound(arr,query);
-
-            if(indx<n && arr[indx] == query){
-                System.out.println(indx);
-            }else{
-                System.out.println(-1);
-            }
-
-        }
-
-    }
-
-    private static int lowBound(int[] arr, int target){
-        int left =0;
-        int right = arr.length;
-
-        while(left<right){
-            int mid = (left + right)/2;
-
-            if(arr[mid] < target){
-                left = mid +1;
-            }else{
-                right = mid;
+            String[] love = sc.nextLine().split(" ");
+            for(String loves : love){
+                popularity.put(loves, popularity.get(loves) +1);
             }
         }
 
-        return left;
+        //정렬
+        ArrayList<String> arrayName = new ArrayList<>(Arrays.asList(names));
+        arrayName.sort((a,b) ->{
+            if (popularity.get(b) != popularity.get(a)) { //내림차순
+                return popularity.get(b) - popularity.get(a); //오름차순
+            }else{
+                return a.compareTo(b);
+            }
+        });
+
+
+        for(String name : arrayName){
+            System.out.println(name + " " + popularity.get(name));
+        }
+
     }
 }
